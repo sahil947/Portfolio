@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahil Thakur - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Dancing+Script&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Import Map for React and Lucide -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18/?dev",
+            "react-dom/client": "https://esm.sh/react-dom@18/client?dev",
+            "lucide-react": "https://esm.sh/lucide-react@0.263.1?dev"
+        }
+    }
+    </script>
+    <!-- Babel for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body class="bg-[#070707] text-[#e0e0e0]">
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+        import React, { useState, useEffect } from "react";
+        import { createRoot } from "react-dom/client";
+        import { Play, ArrowRight, Video, Zap, Mail, Instagram, Twitter, ExternalLink, ChevronLeft, MessageCircle, Phone, Linkedin, Check, FileText, Layers } from "lucide-react";
+
+        const App = () => {
+            const [scrolled, setScrolled] = useState(false);
+            const [activeFolder, setActiveFolder] = useState(null);
+            const [copiedType, setCopiedType] = useState(null); // 'email', 'phone', or 'nav'
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener("scroll", handleScroll);
+                return () => window.removeEventListener("scroll", handleScroll);
+            }, []);
+
+            const scrollToSection = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const yOffset = -80;
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+                    window.scrollTo({
+                        top: y,
+                        behavior: "smooth"
+                    });
+                }
+            };
+
+            const handleNavClick = () => {
+                scrollToSection('contact');
+                const combinedContact = "Email: sahiltechbiz@gmail.com\nPhone: +91 8219475442";
+                copyToClipboard(combinedContact, "nav");
+            };
+
+            const handleVideoClick = (url) => {
+                window.open(url, "_blank", "noopener,noreferrer");
+            };
+
+            const handleDownloadCV = () => {
+                const cvUrl = "https://drive.google.com/file/d/11Fis5qKFaqmC6TcW18yl_zkVerV9JBmz/view?usp=sharing";
+                window.open(cvUrl, "_blank");
+            };
+
+            const handleEmailClick = (e) => {
+                window.location.href = "mailto:sahiltechbiz@gmail.com?subject=Inquiry from Portfolio&body=Hi Sahil,";
+            };
+
+            const copyToClipboard = (text, type) => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    setCopiedType(type);
+                    setTimeout(() => setCopiedType(null), 2000);
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                document.body.removeChild(textArea);
+            };
+
+            const services = [
+                {
+                    id: "01",
+                    name: "Long-form Editing",
+                    icon: <Video size={22} />,
+                    desc: "Documentaries and YouTube series driven by storytelling that keeps viewers hooked.",
+                    isVertical: false,
+                    count: "3 Projects",
+                    videos: [
+                        {
+                            title: "I Emailed 100+ Brands for a Collaboration!",
+                            duration: "10:49",
+                            videoSrc: "https://www.youtube.com/watch?v=1JxhBjJGYoE",
+                            thumbnail: "https://i.ytimg.com/vi/1JxhBjJGYoE/maxresdefault.jpg"
+                        },
+                        {
+                            title: "Hailey Bieber's Billion-Dollar Beauty Empire",
+                            duration: "10:14",
+                            videoSrc: "https://www.youtube.com/watch?v=xdKKhrOu6EY",
+                            thumbnail: "https://i.ytimg.com/vi/xdKKhrOu6EY/maxresdefault.jpg"
+                        },
+                        {
+                            title: "The Most Weird Hair Loss Questions Answered",
+                            duration: "14:27",
+                            videoSrc: "https://www.youtube.com/watch?v=2-nDR9V_-m4",
+                            thumbnail: "https://i.ytimg.com/vi/2-nDR9V_-m4/maxresdefault.jpg"
+                        }
+                    ]
+                },
+                {
+                    id: "02",
+                    name: "Short-form Reels",
+                    icon: <Zap size={22} />,
+                    desc: "High-impact TikToks and Reels designed for viral reach and maximum retention.",
+                    isVertical: true,
+                    count: "4 Projects",
+                    videos: [
+                        {
+                            title: "Ad Sample (YT Studio UI)",
+                            duration: "0:49",
+                            videoSrc: "https://youtube.com/shorts/yockPwd-Db4",
+                            thumbnail: "https://i.ytimg.com/vi/yockPwd-Db4/hqdefault.jpg"
+                        },
+                        {
+                            title: "Real Estate Video Sample",
+                            duration: "0:52",
+                            videoSrc: "https://youtube.com/shorts/exBVMunK5eM?si=NFyKHUi3aN-jw7p1",
+                            thumbnail: "https://i.ytimg.com/vi/exBVMunK5eM/hqdefault.jpg"
+                        },
+                        {
+                            title: "Youtube Short Sample",
+                            duration: "0:59",
+                            videoSrc: "https://youtube.com/shorts/aEoVw4CA3Ds?feature=share",
+                            thumbnail: "https://i.ytimg.com/vi/aEoVw4CA3Ds/hqdefault.jpg"
+                        },
+                        {
+                            title: "Instagram Reel Sample",
+                            duration: "0:58",
+                            videoSrc: "https://youtube.com/shorts/rBbHaUoXmm8?si=kNfRHprItXeVW9JP",
+                            thumbnail: "https://i.ytimg.com/vi/rBbHaUoXmm8/hqdefault.jpg"
+                        }
+                    ]
+                }
+            ];
+
+            return (
+                <div className="min-h-screen bg-[#070707] text-[#e0e0e0] font-sans selection:bg-orange-500/30 selection:text-white">
+                    {/* Social Sidebar */}
+                    <div className="fixed right-6 md:right-10 top-1/2 -translate-y-1/2 z-[60] hidden sm:flex flex-col gap-6 items-center">
+                        <div className="w-[1px] h-16 bg-gradient-to-b from-transparent to-orange-500/50"></div>
+                        <a href="https://linkedin.com/in/sahil-thakur-482589281" target="_blank" rel="noopener noreferrer"
+                            className="p-2.5 rounded-full bg-white/5 border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:text-orange-500 transition-all duration-300 group">
+                            <Linkedin size={18} className="group-hover:scale-110 transition-transform" />
+                        </a>
+                        <a href="https://www.instagram.com/heysahill/?hl=en" target="_blank" rel="noopener noreferrer"
+                            className="p-2.5 rounded-full bg-white/5 border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:text-orange-500 transition-all duration-300 group">
+                            <Instagram size={18} className="group-hover:scale-110 transition-transform" />
+                        </a>
+                        <button onClick={handleEmailClick}
+                            className="p-2.5 rounded-full bg-white/5 border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:text-orange-500 transition-all duration-300 group"
+                            title="Compose Email">
+                            <Mail size={18} className="group-hover:scale-110 transition-transform" />
+                        </button>
+                        <div className="w-[1px] h-16 bg-gradient-to-t from-transparent to-orange-500/50"></div>
+                    </div>
+
+                    {/* Navigation */}
+                    <nav className={`fixed w-full z-50 transition-all duration-500 px-6 md:px-16 py-4 flex justify-between items-center
+                        ${scrolled
+                            ? "bg-black/90 backdrop-blur-lg border-b border-orange-500/10 shadow-[0_4px_30px_rgba(249,115,22,0.05)]"
+                            : "bg-transparent border-b border-transparent"}`}>
+                        <h1 className="text-lg font-bold tracking-widest cursor-pointer" onClick={() => window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        })}>
+                            SAHIL<span className="text-orange-500">.</span>
+                        </h1>
+                        <div className="hidden md:flex gap-8 text-[10px] font-medium uppercase tracking-[0.2em] opacity-50">
+                            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-orange-500
+                                transition-colors">Home</button>
+                            <button onClick={() => scrollToSection('work')} className="hover:text-orange-500
+                                transition-colors">Work</button>
+                            <button onClick={() => scrollToSection('about')} className="hover:text-orange-500
+                                transition-colors">About</button>
+                        </div>
+                        <button onClick={handleNavClick}
+                            className="bg-white text-black px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-orange-500 hover:text-white transition-all transform hover:scale-105 min-w-[120px]">
+                            {copiedType === "nav" ? "Details Copied!" : "Let's Talk"}
+                        </button>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section className="relative min-h-[95vh] flex flex-col justify-center px-6 md:px-20 overflow-hidden">
+                        <div className="absolute inset-0 z-0">
+                            <img src="https://raw.githubusercontent.com/sahiltechbiz-debug/Sahil-Thakur/650b91605d1ae26fc77533bc990be9eeb3c7a7e8/2.png"
+                                alt="Background" className="w-full h-full object-cover" />
+                            <div
+                                className="absolute inset-0 bg-black/60 md:bg-black/40 bg-gradient-to-r from-black via-black/20 to-transparent">
+                            </div>
+                        </div>
+                        <div className="max-w-3xl relative z-10 mx-auto w-full">
+                            <div
+                                className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-black/20 backdrop-blur-md text-[9px] uppercase tracking-[0.3em] mb-8">
+                                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                                Available for Projects
+                            </div>
+                            <h2 className="text-5xl md:text-7xl font-bold leading-[1.1] mb-6 tracking-tight text-white drop-shadow-2xl">
+                                I Edit <br />
+                                <span
+                                    className="italic font-light opacity-80 hover:opacity-100 hover:text-orange-500 transition-all duration-500 cursor-default">Stories.</span>
+                            </h2>
+                            <p className="max-w-md text-sm md:text-base text-white/70 font-light leading-relaxed mb-10 drop-shadow">
+                                A Guy Obsessed with Storytelling, Motion, and Videos That Drive Real Results and <span
+                                    className="text-orange-500 font-medium">Actually Sell.</span>
+                            </p>
+                            <div className="flex flex-wrap gap-4">
+                                <button onClick={() => scrollToSection('work')} className="flex items-center gap-3 bg-orange-500 px-6
+                                    py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-orange-600 transition-all
+                                    group shadow-lg shadow-orange-500/20">
+                                    View Work
+                                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                                <button onClick={() => scrollToSection('contact')} className="flex items-center gap-3 bg-white/5
+                                    backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full text-[10px] font-bold uppercase
+                                    tracking-widest hover:bg-white hover:text-black transition-all group">
+                                    Connect
+                                    <MessageCircle size={14} className="group-hover:scale-110 transition-transform" />
+                                </button>
+                                <button onClick={handleDownloadCV}
+                                    className="flex items-center gap-3 bg-transparent border border-white/20 px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:border-orange-500/50 hover:text-orange-500 transition-all group">
+                                    Download CV
+                                    <FileText size={14} className="group-hover:-translate-y-0.5 transition-transform" />
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Portfolio Section */}
+                    <section id="work" className="px-6 md:px-20 py-24 max-w-5xl mx-auto scroll-mt-24">
+                        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <div>
+                                <h3 className="text-orange-500 font-mono text-[9px] uppercase tracking-[0.5em] mb-3">Expertise</h3>
+                                <div className="flex items-center gap-4">
+                                    {activeFolder && (
+                                        <button onClick={() => setActiveFolder(null)} className="p-2 bg-white/5 rounded-full
+                                        hover:bg-orange-500 hover:text-white transition-all transform hover:-translate-x-1">
+                                            <ChevronLeft size={20} />
+                                        </button>
+                                    )}
+                                    <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-white">
+                                        {activeFolder ? activeFolder.name : "Portfolio Folders"}
+                                    </h2>
+                                </div>
+                            </div>
+                            {!activeFolder && (
+                                <p className="text-white/30 text-[10px] font-mono max-w-[180px] leading-relaxed uppercase">
+                                    Explore selected works from the archive.
+                                </p>
+                            )}
+                        </div>
+
+                        {!activeFolder ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                                {services.map((s) => (
+                                    <button key={s.id} onClick={() => setActiveFolder(s)} className="group relative p-8 text-left border
+                                border-white/5 bg-[#0b0b0b] rounded-[1.5rem] hover:border-orange-500/40 transition-all duration-500
+                                hover:bg-[#0e0e0e] overflow-hidden">
+                                        <div
+                                            className="absolute top-0 right-0 w-24 h-24 bg-orange-500/5 blur-[50px] group-hover:bg-orange-500/10 transition-all duration-500">
+                                        </div>
+                                        <div className="flex justify-between items-start mb-8">
+                                            <div
+                                                className="p-3 bg-white/5 rounded-xl text-orange-500 group-hover:scale-105 group-hover:bg-orange-500 group-hover:text-white transition-all duration-500 shadow-lg">
+                                                {s.icon}
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="block text-orange-500 font-mono text-[10px] mb-1 opacity-50">{s.id}</span>
+                                                <span
+                                                    className="bg-white/5 px-2 py-0.5 rounded-full text-[8px] font-bold text-white/40 uppercase tracking-widest">{s.count}</span>
+                                            </div>
+                                        </div>
+                                        <h4
+                                            className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight group-hover:text-orange-500 transition-colors">
+                                            {s.name}</h4>
+                                        <p
+                                            className="text-xs md:text-sm text-white/40 leading-relaxed mb-8 max-w-[280px] group-hover:text-white/60 transition-colors">
+                                            {s.desc}</p>
+                                        <div
+                                            className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-orange-500">
+                                            <div className="w-6 h-[1px] bg-orange-500/30 group-hover:w-10 transition-all"></div>
+                                            Open Folder
+                                            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                        </div>
+                                        <div
+                                            className="absolute bottom-[-15px] right-[-15px] opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                                            <Layers size={150} />
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className={`grid grid-cols-2 ${activeFolder.isVertical ? 'sm:grid-cols-3 lg:grid-cols-4' : 'md:grid-cols-2'
+                                } gap-4 md:gap-8 animate-in fade-in zoom-in-95 duration-500`}>
+                                {activeFolder.videos.map((video, idx) => (
+                                    <div key={idx} className="group cursor-pointer" onClick={() => handleVideoClick(video.videoSrc)}>
+                                        <div className={`relative ${activeFolder.isVertical ? 'aspect-[9/16]' : 'aspect-video'} bg-[#111]
+                                    rounded-xl overflow-hidden mb-3 md:mb-6 border border-white/5 shadow-2xl`}>
+                                            <img src={video.thumbnail} alt={video.title}
+                                                className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                                            <div
+                                                className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/10 transition-all">
+                                                <div
+                                                    className="w-10 h-10 md:w-14 md:h-14 rounded-full border border-white/20 backdrop-blur-md text-white flex items-center justify-center scale-90 group-hover:scale-100 transition-all opacity-0 group-hover:opacity-100 shadow-2xl">
+                                                    <Play size={20} className="fill-current ml-1" />
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-black/80 backdrop-blur-md px-2 py-0.5 md:px-3 md:py-1 rounded-full text-[8px] md:text-[10px] font-mono border border-white/10 text-orange-500">
+                                                {video.duration}
+                                            </div>
+                                        </div>
+                                        <h4
+                                            className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-white group-hover:text-orange-500 transition-colors leading-tight px-1 truncate">
+                                            {video.title}</h4>
+                                        <div className="flex items-center gap-2 px-1">
+                                            <span
+                                                className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-white/20 font-bold group-hover:text-orange-500/50 transition-colors">Watch</span>
+                                            <ExternalLink size={8} className="text-white/20 group-hover:text-orange-500/50" />
+                                        </div>
+                                    </div>
+                                ))}
+                                <button onClick={() => setActiveFolder(null)} className={`${activeFolder.isVertical ? 'aspect-[9/16]' :
+                                    'aspect-video'} border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center
+                                justify-center gap-2 md:gap-4 opacity-30 hover:opacity-100 hover:bg-orange-500/5
+                                hover:border-orange-500/30 transition-all group`}>
+                                    <div
+                                        className="p-2 md:p-4 bg-white/5 rounded-full group-hover:bg-orange-500 group-hover:text-white transition-all">
+                                        <ChevronLeft size={16} />
+                                    </div>
+                                    <span className="text-[8px] md:text-xs font-bold uppercase tracking-[0.3em] text-center">Back</span>
+                                </button>
+                            </div>
+                        )}
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="px-6 md:px-20 py-32 bg-black overflow-hidden scroll-mt-24">
+                        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+                            <div className="w-full md:w-5/12 relative group shrink-0">
+                                <div
+                                    className="aspect-[1/1] overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-1000 border border-white/5 rounded-2xl md:rounded-none">
+                                    <img src="https://raw.githubusercontent.com/sahiltechbiz-debug/Sahil-Thakur/eda96f0a0d712d5b2e08fa223125b7b6ab80672b/sahil.jpg.jpg"
+                                        alt="Sahil" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black"></div>
+                                </div>
+                            </div>
+                            <div className="w-full md:w-7/12 flex flex-col">
+                                <span className="text-orange-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block">About
+                                    Personal</span>
+                                <h2 className="text-4xl md:text-5xl font-bold text-white mb-2 leading-tight tracking-tight">Hello, I'm
+                                    <span className="text-orange-500">Sahil</span></h2>
+                                <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">Thakur</h3>
+                                <div className="w-12 h-1 bg-orange-500/30 mb-8"></div>
+                                <p className="text-xs md:text-sm text-white/40 leading-relaxed max-w-md mb-10 font-light">
+                                    An extremely passionate video editor and creative professional, deeply invested in his craft. A fast
+                                    learner and highly adaptable, specializing in cinematic storytelling, motion graphics, and
+                                    short-form content.
+                                </p>
+                                <div className="mb-10">
+                                    <p className="text-2xl font-serif italic text-orange-500/80 tracking-tighter" style={{
+                                        fontFamily: "'Dancing Script', cursive"
+                                    }}>Sahil Thakur</p>
+                                </div>
+                                <div className="flex gap-8 opacity-50">
+                                    <a href="https://linkedin.com/in/sahil-thakur-482589281" target="_blank" rel="noopener noreferrer"
+                                        className="hover:text-[#0a66c2] transition-all hover:opacity-100 transform hover:scale-125">
+                                        <Linkedin size={28} />
+                                    </a>
+                                    <a href="https://www.instagram.com/heysahill/?hl=en" target="_blank" rel="noopener noreferrer"
+                                        className="hover:text-[#ee2a7b] transition-all hover:opacity-100 transform hover:scale-125">
+                                        <Instagram size={28} />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="px-6 md:px-20 pt-32 pb-16 max-w-4xl mx-auto scroll-mt-24">
+                        <div className="flex flex-col items-center text-center">
+                            <h3 className="text-orange-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-8">Get In Touch</h3>
+                            <h2 className="text-3xl md:text-5xl font-semibold mb-10 tracking-tight text-white">Let's build something
+                                <span
+                                    className="opacity-30 italic hover:opacity-100 hover:text-orange-500 transition-all duration-500 cursor-default">viral.</span>
+                            </h2>
+                            <div className="flex flex-col gap-10 items-center">
+                                <button onClick={(e) => { handleEmailClick(e); copyToClipboard("sahiltechbiz@gmail.com", "email"); }}
+                                    className="flex flex-col md:flex-row items-center gap-4 group cursor-pointer">
+                                    <div
+                                        className="flex items-center gap-3 text-xl md:text-2xl font-light text-white/60 group-hover:text-white transition-all">
+                                        <Mail size={24} className="text-orange-500 group-hover:scale-110 transition-transform" />
+                                        <span
+                                            className="underline underline-offset-8 decoration-orange-500/40">sahiltechbiz@gmail.com</span>
+                                    </div>
+                                    {copiedType === "email" && <span
+                                        className="flex items-center gap-1 text-[10px] text-orange-500 font-bold uppercase tracking-widest animate-in fade-in slide-in-from-left-2">
+                                        <Check size={12} /> Copied
+                                    </span>}
+                                </button>
+                                <button onClick={() => copyToClipboard("+91 8219475442", "phone")} className="flex flex-col md:flex-row
+                                    items-center gap-4 group cursor-pointer">
+                                    <div
+                                        className="flex items-center gap-3 text-xl md:text-2xl font-light text-white/60 group-hover:text-white transition-all">
+                                        <Phone size={24} className="text-orange-500 group-hover:scale-110 transition-transform" />
+                                        <span className="underline underline-offset-8 decoration-orange-500/40">+91 8219475442</span>
+                                    </div>
+                                    {copiedType === "phone" && <span
+                                        className="flex items-center gap-1 text-[10px] text-orange-500 font-bold uppercase tracking-widest animate-in fade-in slide-in-from-left-2">
+                                        <Check size={12} /> Copied
+                                    </span>}
+                                </button>
+                            </div>
+                            <p className="mt-12 text-[10px] uppercase tracking-[0.3em] text-white/20">Click to copy contact details &
+                                compose email</p>
+                        </div>
+                    </section>
+
+                    <footer className="px-6 md:px-20 py-8 bg-[#050505] border-t border-white/5">
+                        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                            <h1 className="text-xs font-bold tracking-widest opacity-30">SAHIL<span className="text-orange-500">.</span>
+                            </h1>
+                            <p className="text-[9px] uppercase tracking-[0.3em] opacity-20">© 2026 Crafted for Attention</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
